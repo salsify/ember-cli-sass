@@ -1,4 +1,5 @@
 var SassCompiler = require('broccoli-sass-source-maps');
+var Funnel = require('broccoli-funnel');
 var path = require('path');
 var checker = require('ember-cli-version-checker');
 var mergeTrees = require('broccoli-merge-trees');
@@ -13,7 +14,7 @@ function SASSPlugin(optionsFn) {
 SASSPlugin.prototype.toTree = function(tree, inputPath, outputPath, inputOptions) {
   var options = merge({}, this.optionsFn(), inputOptions);
 
-  var inputTrees = [tree];
+  var inputTrees = [new Funnel(tree, { include: ['**/*.@(scss|css|sass)'] })];
   if (options.includePaths) {
     inputTrees = inputTrees.concat(options.includePaths);
   }
